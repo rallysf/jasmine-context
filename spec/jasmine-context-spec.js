@@ -50,5 +50,52 @@ describe("Jasmine Context Matchers", function() {
         expect(MyFunctions.prototype.hello).toHaveBeenCalledInTheContextOf(foo, [jasmine.any(Function)]);
       });
     });
+
+    describe("with jQuery objects", function () {
+      beforeEach(function () {
+        $("#spec-dom").html("<div class='multiple disjoint'></div><div id='element' class='multiple subset disjoint'></div><div class='multiple subset'></div>");
+      });
+
+      describe("single elements", function () {
+        it("matches if the expected object is a DOM element", function () {
+          spyOn($.fn, "hide");
+          $("#element").hide();
+          expect($.fn.hide).toHaveBeenCalledInTheContextOf($("#element")[0]);
+        });
+
+        it("matches if the expected object is a jQuery element", function () {
+          spyOn($.fn, "hide");
+          $("#element").hide();
+          expect($.fn.hide).toHaveBeenCalledInTheContextOf($("#element"));
+        });
+
+        it("matches if the expected object is a jQuery element also matches the actual selector", function () {
+          spyOn($.fn, "hide");
+          $(".multiple").hide();
+          expect($.fn.hide).toHaveBeenCalledInTheContextOf($("#element"));
+          expect($.fn.hide).toHaveBeenCalledInTheContextOf($("#element")[0]);
+        });
+      });
+      
+      describe("multiple elements", function () {
+        it("matches if the jQuery object selects a subset of elements", function () {
+          spyOn($.fn, "hide");
+          $(".multiple").hide();
+          expect($.fn.hide).toHaveBeenCalledInTheContextOf($(".subset"));
+        });
+
+        it("doesn't match if the jQuery object selects a disjoint set of elements", function () {
+          spyOn($.fn, "hide");
+          $(".disjoint").hide();
+          expect($.fn.hide).not.toHaveBeenCalledInTheContextOf($(".subset"));
+        });
+
+        it("doesn't match if the jQuery object selects a superset of elements", function () {
+          spyOn($.fn, "hide");
+          $(".subset").hide();
+          expect($.fn.hide).not.toHaveBeenCalledInTheContextOf($(".multiple"));
+        });
+      });
+    });
   });
 });
