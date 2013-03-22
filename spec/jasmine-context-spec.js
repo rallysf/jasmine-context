@@ -69,6 +69,14 @@ describe("Jasmine Context Matchers", function() {
           expect($.fn.hide).toHaveBeenCalledInTheContextOf($("#element"));
         });
 
+        it("raises an exception if the jQuery object passed has no elements", function () {
+          expect(function () {
+            spyOn($.fn, "hide");
+            $(".not-a-real-selector").hide();
+            expect($.fn.hide).toHaveBeenCalledInTheContextOf($(".not-a-real-selector"));
+          }).toThrow();
+        });
+
         it("matches if the expected object is a jQuery element also matches the actual selector", function () {
           spyOn($.fn, "hide");
           $(".multiple").hide();
