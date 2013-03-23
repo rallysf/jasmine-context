@@ -29,5 +29,5 @@ it("should call show", function () {
 
 ## Additional Contributors
 
-* Danny Burkes
+* [Danny Burkes](https://github.com/dburkes)
 * [Andrew Hubbs](https://github.com/andrewhubbs/)
