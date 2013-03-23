@@ -26,3 +26,8 @@ it("should call show", function () {
 	expect($.fn.prop).toHaveBeenCalledInTheContextOf($("#element"), ["disabled", true]);
 });
 ```
+
+## Additional Contributors
+
+* Danny Burkes
+* [Andrew Hubbs](https://github.com/andrewhubbs/)
