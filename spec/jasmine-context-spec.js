@@ -36,6 +36,19 @@ describe("Jasmine Context Matchers", function() {
       expect(MyFunctions.prototype.hello).not.toHaveBeenCalledInTheContextOf(bar);
     });
 
+    it("does not require jQuery as a dependency", function() {
+      // Remove jQuery from the global namespace
+      var tmpjQuery = $.noConflict(true);
+
+      // Check that matcher call doesn't throw a ReferenceError
+      // for missing jQuery/$
+      foo.hello("world");
+      expect(MyFunctions.prototype.hello).toHaveBeenCalledInTheContextOf(foo);
+
+      // Restore jQuery to the global namespace
+      window.jQuery = window.$ = tmpjQuery;
+    });
+
     describe("with arguments", function () { 
       it("requires matching arguments", function() {
         foo.hello("world");
