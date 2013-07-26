@@ -7,7 +7,6 @@ a call to the function.
 ## Dependencies
 
 * Jasmine >= 1.3.1
-* jQuery >= 1.9
 
 ## Usage
 
